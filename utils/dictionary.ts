@@ -1,6 +1,9 @@
-
 import { WordData } from '../types';
-// --- 关键函数：让 App 能找到所有场景名称 ---
+
+// 1. 辅助函数：生成 ID
+const generateId = () => Math.random().toString(36).substr(2, 9);
+
+// 2. 导出 App.tsx 缺失的场景建议函数
 export const getScenarioSuggestions = (dictionary: any) => {
   return Object.keys(dictionary).map(key => ({
     id: key,
@@ -8,10 +11,7 @@ export const getScenarioSuggestions = (dictionary: any) => {
   }));
 };
 
-// Helper to generate IDs
-const generateId = () => Math.random().toString(36).substr(2, 9);
-
-// Helper to expand compact data into full WordData objects
+// 3. 辅助函数：展开简写数据
 const expand = (words: string[][]): WordData[] => {
   return words.map(([english, chinese, us_ipa, uk_ipa, ex_en, ex_zh]) => ({
     id: generateId(),
@@ -20,9 +20,7 @@ const expand = (words: string[][]): WordData[] => {
     type: 'Word',
     us_ipa,
     uk_ipa,
-    examples: [
-      { en: ex_en, zh: ex_zh }
-    ]
+    examples: [{ en: ex_en, zh: ex_zh }]
   }));
 };
 
