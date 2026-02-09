@@ -1,5 +1,12 @@
 
 import { WordData } from '../types';
+// --- 关键函数：让 App 能找到所有场景名称 ---
+export const getScenarioSuggestions = (dictionary: any) => {
+  return Object.keys(dictionary).map(key => ({
+    id: key,
+    label: key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())
+  }));
+};
 
 // Helper to generate IDs
 const generateId = () => Math.random().toString(36).substr(2, 9);
