@@ -1,25 +1,6 @@
 import { WordData } from '../types';
 
 /**
- * 1. 核心修复：场景建议函数
- * 解决 Vercel 报错日志第 10 行缺失 getScenarioSuggestions 的问题
- */
-export const getScenarioSuggestions = (query: string): { key: string, label: string }[] => {
-  if (!query || query.trim().length === 0) return [];
-  const lowerQuery = query.toLowerCase().trim();
-  const matches: { key: string, label: string }[] = [];
-
-  for (const key of Object.keys(rawDictionary)) {
-    if (key.toLowerCase().includes(lowerQuery)) {
-      // 将 morning_routine 转换为 Morning Routine 格式
-      const title = key.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-      matches.push({ key, label: title });
-    }
-  }
-  return matches.slice(0, 8);
-};
-
-/**
  * 2. 辅助工具函数
  */
 const generateId = () => Math.random().toString(36).substr(2, 9);
