@@ -3,15 +3,7 @@ import { WordData } from '../types';
 // 1. 辅助函数：生成 ID
 const generateId = () => Math.random().toString(36).substr(2, 9);
 
-// 2. 导出 App.tsx 缺失的场景建议函数
-export const getScenarioSuggestions = (dictionary: any) => {
-  return Object.keys(dictionary).map(key => ({
-    id: key,
-    label: key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())
-  }));
-};
-
-// 3. 辅助函数：展开简写数据
+// 2. 辅助函数：展开简写数据 (确保数据结构符合 WordData 接口)
 const expand = (words: string[][]): WordData[] => {
   return words.map(([english, chinese, us_ipa, uk_ipa, ex_en, ex_zh]) => ({
     id: generateId(),
@@ -25,7 +17,7 @@ const expand = (words: string[][]): WordData[] => {
 };
 
 // --- 65 SCENARIOS DATA STORE ---
-const rawDictionary: Record<string, string[][]> = {
+export const rawDictionary: Record<string, string[][]> = {
   // 1. Home & Routine
   'morning_routine': [
     ['Alarm', '闹钟', 'əˈlɑːrm', 'əˈlɑːm', 'The alarm rang at 7.', '闹钟7点响了。'],
@@ -123,7 +115,6 @@ const rawDictionary: Record<string, string[][]> = {
     ['Rake', '耙子', 'reɪk', 'reɪk', 'Rake the leaves.', '耙叶子。'],
     ['Hose', '软管', 'hoʊz', 'həʊz', 'Garden hose.', '花园软管。']
   ],
-  // 2. Food & Drink
   'breakfast': [
     ['Toast', '吐司', 'toʊst', 'təʊst', 'Butter on toast.', '吐司抹黄油。'],
     ['Egg', '鸡蛋', 'eɡ', 'eɡ', 'Fried egg.', '煎蛋。'],
@@ -244,7 +235,6 @@ const rawDictionary: Record<string, string[][]> = {
     ['Straw', '吸管', 'strɔː', 'strɔː', 'Grab a straw.', '拿根吸管。'],
     ['Takeout', '外卖', 'ˈteɪkaʊt', 'ˈteɪkaʊt', 'Order takeout.', '点外卖。']
   ],
-  // 3. Travel
   'airport': [
     ['Terminal', '航站楼', 'ˈtɜːrmɪnl', 'ˈtɜːmɪnl', 'Terminal 3.', '3号航站楼。'],
     ['Passport', '护照', 'ˈpæspɔːrt', 'ˈpɑːspɔːt', 'Valid passport.', '有效护照。'],
@@ -341,7 +331,6 @@ const rawDictionary: Record<string, string[][]> = {
     ['Bike', '自行车', 'baɪk', 'baɪk', 'Ride a bike.', '骑自行车。'],
     ['Pedestrian', '行人', 'pəˈdestriən', 'pəˈdestriən', 'Watch pedestrians.', '注意行人。']
   ],
-  // 4. Health
   'hospital': [
     ['Doctor', '医生', 'ˈdɑːktər', 'ˈdɒktə', 'See a doctor.', '看医生。'],
     ['Nurse', '护士', 'nɜːrs', 'nɜːs', 'Call the nurse.', '叫护士。'],
@@ -402,7 +391,6 @@ const rawDictionary: Record<string, string[][]> = {
     ['Healthy', '健康', 'ˈhelθi', 'ˈhelθi', 'Healthy body.', '健康的身体。'],
     ['Water', '水', 'ˈwɔːtər', 'ˈwɔːtə', 'Drink water.', '喝水。']
   ],
-  // 5. Work & Education
   'office': [
     ['Desk', '桌子', 'desk', 'desk', 'Office desk.', '办公桌。'],
     ['Computer', '电脑', 'kəmˈpjuːtər', 'kəmˈpjuːtə', 'Work on computer.', '在电脑上工作。'],
@@ -451,7 +439,6 @@ const rawDictionary: Record<string, string[][]> = {
     ['Study', '学习', 'ˈstʌdi', 'ˈstʌdi', 'Study hard.', '努力学习。'],
     ['Computer', '电脑', 'kəmˈpjuːtər', 'kəmˈpjuːtə', 'Public computer.', '公共电脑。']
   ],
-  // 6. Shopping
   'shopping_mall': [
     ['Shop', '商店', 'ʃɑːp', 'ʃɒp', 'Big shop.', '大商店。'],
     ['Bag', '袋子', 'bæɡ', 'bæɡ', 'Shopping bag.', '购物袋。'],
@@ -476,7 +463,6 @@ const rawDictionary: Record<string, string[][]> = {
     ['Hat', '帽子', 'hæt', 'hæt', 'Cool hat.', '酷帽子。'],
     ['Buy', '买', 'baɪ', 'baɪ', 'Buy it.', '买下它。']
   ],
-  // 7. Leisure
   'movies': [
     ['Ticket', '票', 'ˈtɪkɪt', 'ˈtɪkɪt', 'Movie ticket.', '电影票。'],
     ['Popcorn', '爆米花', 'ˈpɑːpkɔːrn', 'ˈpɒpkɔːn', 'Eat popcorn.', '吃爆米花。'],
@@ -549,7 +535,6 @@ const rawDictionary: Record<string, string[][]> = {
     ['Dance', '跳舞', 'dæns', 'dɑːns', 'Dance to music.', '随音乐跳舞。'],
     ['Singer', '歌手', 'ˈsɪŋər', 'ˈsɪŋə', 'Good singer.', '好歌手。']
   ],
-  // 8. Miscellaneous
   'weather': [
     ['Sun', '太阳', 'sʌn', 'sʌn', 'Sunny day.', '晴天。'],
     ['Rain', '雨', 'reɪn', 'reɪn', 'Heavy rain.', '大雨。'],
@@ -660,9 +645,8 @@ const rawDictionary: Record<string, string[][]> = {
   ]
 };
 
-// Map keywords to dictionary keys
+// 5. 关键词映射 (用于模糊匹配)
 const sceneConfig: Record<string, string[]> = {
-  // 1. Home
   'morning_routine': ['morning', 'wake', 'routine', 'breakfast', 'alarm', '晨间', '起床', '早上', '闹钟'],
   'bedroom': ['bedroom', 'sleep', 'bed', 'rest', 'room', '卧室', '睡觉', '床', '房间'],
   'kitchen': ['kitchen', 'cook', 'food', 'stove', 'fridge', '厨房', '做饭', '冰箱'],
@@ -671,8 +655,6 @@ const sceneConfig: Record<string, string[]> = {
   'house_cleaning': ['clean', 'house', 'broom', 'mop', 'chore', '打扫', '清洁', '家务', '干净'],
   'laundry': ['laundry', 'wash', 'clothes', 'dry', 'iron', '洗衣', '衣服', '烘干', '熨烫'],
   'gardening': ['garden', 'flower', 'plant', 'tree', 'grow', '花园', '种花', '植物', '园艺'],
-  
-  // 2. Food
   'breakfast': ['breakfast', 'morning', 'eat', 'egg', 'toast', '早餐', '早饭', '吃'],
   'lunch': ['lunch', 'noon', 'eat', 'sandwich', 'burger', '午餐', '午饭'],
   'dinner': ['dinner', 'evening', 'eat', 'steak', 'wine', '晚餐', '晚饭'],
@@ -683,8 +665,6 @@ const sceneConfig: Record<string, string[]> = {
   'restaurant': ['restaurant', 'dining', 'eat', 'menu', 'waiter', '餐厅', '饭馆', '吃饭'],
   'cafe': ['cafe', 'coffee', 'tea', 'drink', 'relax', '咖啡馆', '咖啡店', '下午茶'],
   'fast_food': ['fast', 'food', 'burger', 'fries', 'quick', '快餐', '汉堡', '薯条'],
-
-  // 3. Travel
   'airport': ['airport', 'fly', 'travel', 'plane', 'luggage', '机场', '飞', '旅行', '行李'],
   'airplane': ['airplane', 'plane', 'fly', 'sky', 'seat', '飞机', '航班', '空中'],
   'hotel': ['hotel', 'room', 'stay', 'bed', 'reception', '酒店', '旅馆', '住宿'],
@@ -693,33 +673,23 @@ const sceneConfig: Record<string, string[]> = {
   'bus': ['bus', 'stop', 'public', 'transport', 'ride', '公交车', '巴士', '公车'],
   'subway': ['subway', 'metro', 'underground', 'train', 'station', '地铁', '捷运', '轻轨'],
   'traffic': ['traffic', 'road', 'street', 'car', 'drive', '交通', '马路', '开车', '堵车'],
-
-  // 4. Health
   'hospital': ['hospital', 'doctor', 'nurse', 'sick', 'emergency', '医院', '医生', '生病', '急诊'],
   'pharmacy': ['pharmacy', 'medicine', 'drug', 'pill', 'store', '药房', '药店', '买药'],
   'dentist': ['dentist', 'tooth', 'teeth', 'mouth', 'pain', '牙医', '牙科', '牙齿', '看牙'],
   'illness': ['sick', 'ill', 'cold', 'flu', 'fever', 'pain', '生病', '感冒', '发烧', '不舒服'],
   'fitness': ['gym', 'sport', 'exercise', 'workout', 'healthy', 'run', '健身', '运动', '锻炼'],
-
-  // 5. Work
   'office': ['office', 'work', 'job', 'computer', 'desk', '办公室', '工作', '上班'],
   'meeting': ['meeting', 'talk', 'business', 'room', 'discuss', '会议', '开会', '讨论'],
   'school': ['school', 'class', 'student', 'teacher', 'learn', '学校', '上学', '课堂', '学生'],
   'library': ['library', 'book', 'read', 'quiet', 'study', '图书馆', '看书', '借书'],
-
-  // 6. Shopping
   'shopping_mall': ['mall', 'shop', 'buy', 'store', 'sale', '商场', '购物', '商店'],
   'clothing_store': ['clothes', 'fashion', 'wear', 'shirt', 'dress', '服装店', '买衣服', '穿'],
-
-  // 7. Leisure
   'movies': ['movie', 'cinema', 'film', 'watch', 'theater', '电影', '看电影', '影院'],
   'park': ['park', 'walk', 'nature', 'tree', 'relax', '公园', '散步', '玩'],
   'beach': ['beach', 'sea', 'ocean', 'sand', 'swim', 'sun', '海滩', '沙滩', '海边', '游泳'],
   'zoo': ['zoo', 'animal', 'lion', 'wild', 'park', '动物园', '动物'],
   'sports': ['sport', 'game', 'play', 'ball', 'run', '运动', '比赛', '球'],
   'music': ['music', 'song', 'listen', 'concert', 'band', '音乐', '听歌', '唱歌'],
-
-  // 8. Misc
   'weather': ['weather', 'rain', 'sun', 'snow', 'wind', 'sky', '天气', '下雨', '晴天'],
   'colors': ['color', 'red', 'blue', 'green', 'paint', '颜色', '色彩'],
   'numbers': ['number', 'count', 'math', 'one', 'two', '数字', '数数'],
@@ -731,57 +701,43 @@ const sceneConfig: Record<string, string[]> = {
   'space': ['space', 'moon', 'star', 'planet', 'universe', '太空', '宇宙', '星星']
 };
 
+// 6. 导出搜索函数
 export const searchLocalDictionary = (query: string): WordData[] | null => {
   const normalizedQuery = query.toLowerCase().trim();
-  
-  // 1. Try exact key match (fastest)
   if (rawDictionary[normalizedQuery]) {
     return expand(rawDictionary[normalizedQuery]);
   }
-
-  // 2. Search in keywords (Fuzzy Match)
   for (const [key, keywords] of Object.entries(sceneConfig)) {
     if (keywords.some(k => normalizedQuery.includes(k) || k.includes(normalizedQuery))) {
       const rawData = rawDictionary[key];
-      if (rawData) {
-        return expand(rawData);
-      }
+      if (rawData) return expand(rawData);
     }
   }
-
   return null;
 };
 
-// Robust helper to get random words from ALL scenes
+// 7. 导出全局随机词函数
 export const getRandomGlobalWords = (count: number): WordData[] => {
   const allScenes = Object.values(rawDictionary);
   if (allScenes.length === 0) return [];
-
   const allWordsRaw = allScenes.flat();
-  
-  // Shuffle all available words
   const shuffled = [...allWordsRaw].sort(() => 0.5 - Math.random());
-  
-  // Take the requested amount
-  const selectedRaw = shuffled.slice(0, count);
-  
-  return expand(selectedRaw);
+  return expand(shuffled.slice(0, count));
 };
 
+// 8. 核心：导出场景建议函数 (仅此一个，解决冲突)
 export const getScenarioSuggestions = (query: string): { key: string, label: string }[] => {
   if (!query || query.trim().length === 0) return [];
   const lowerQuery = query.toLowerCase().trim();
   const matches: { key: string, label: string }[] = [];
-
   for (const [key, keywords] of Object.entries(sceneConfig)) {
     const keyMatch = key.replace(/_/g, ' ').toLowerCase().includes(lowerQuery);
     const keywordMatch = keywords.some(k => k.toLowerCase().includes(lowerQuery));
-
     if (keyMatch || keywordMatch) {
-        const title = key.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-        const chineseKeyword = keywords.find(k => /[\u4e00-\u9fa5]/.test(k));
-        const label = chineseKeyword ? `${title} (${chineseKeyword})` : title;
-        matches.push({ key, label });
+      const title = key.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+      const chineseKeyword = keywords.find(k => /[\u4e00-\u9fa5]/.test(k));
+      const label = chineseKeyword ? `${title} (${chineseKeyword})` : title;
+      matches.push({ key, label });
     }
   }
   return matches.slice(0, 8);
