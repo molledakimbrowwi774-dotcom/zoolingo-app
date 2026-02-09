@@ -1,9 +1,29 @@
 import { WordData } from '../types';
 
-// 1. 辅助函数：生成 ID
+/**
+ * 1. 核心修复：场景建议函数
+ * 解决 Vercel 报错日志第 10 行缺失 getScenarioSuggestions 的问题
+ */
+export const getScenarioSuggestions = (query: string): { key: string, label: string }[] => {
+  if (!query || query.trim().length === 0) return [];
+  const lowerQuery = query.toLowerCase().trim();
+  const matches: { key: string, label: string }[] = [];
+
+  for (const key of Object.keys(rawDictionary)) {
+    if (key.toLowerCase().includes(lowerQuery)) {
+      // 将 morning_routine 转换为 Morning Routine 格式
+      const title = key.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+      matches.push({ key, label: title });
+    }
+  }
+  return matches.slice(0, 8);
+};
+
+/**
+ * 2. 辅助工具函数
+ */
 const generateId = () => Math.random().toString(36).substr(2, 9);
 
-// 2. 辅助函数：展开简写数据 (确保数据结构符合 WordData 接口)
 const expand = (words: string[][]): WordData[] => {
   return words.map(([english, chinese, us_ipa, uk_ipa, ex_en, ex_zh]) => ({
     id: generateId(),
@@ -14,6 +34,24 @@ const expand = (words: string[][]): WordData[] => {
     uk_ipa,
     examples: [{ en: ex_en, zh: ex_zh }]
   }));
+};
+
+/**
+ * 3. 核心搜索与随机函数
+ */
+export const searchLocalDictionary = (query: string): WordData[] | null => {
+  const normalizedQuery = query.toLowerCase().trim();
+  if (rawDictionary[normalizedQuery]) {
+    return expand(rawDictionary[normalizedQuery]);
+  }
+  return null;
+};
+
+export const getRandomGlobalWords = (count: number): WordData[] => {
+  const allWordsRaw = Object.values(rawDictionary).flat();
+  if (allWordsRaw.length === 0) return [];
+  const shuffled = [...allWordsRaw].sort(() => 0.5 - Math.random());
+  return expand(shuffled.slice(0, count));
 };
 
 // --- 65 SCENARIOS DATA STORE ---
